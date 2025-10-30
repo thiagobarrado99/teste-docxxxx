@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * This is the model class for table "clients".
+ * This is the model class for table "zips".
  *
  * @property string $from_postcode From Postcode
  * @property string $to_postcode To Postcode
