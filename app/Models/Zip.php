@@ -10,20 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * This is the model class for table "clients".
  *
- * @property string $name Name
- * @property string $phone Phone
- * @property string $email Email
- * @property string $document Document
- * @property string $description Description
- * @property string $origin Origin
- * @property int $type Type
- * @property string $zipcode Zipcode
- * @property int $state_id State ID
- * @property int $city_id City ID
- * @property string $neighborhood Neighborhood
- * @property string $address Address
- * @property string $number Number
- * @property int $created_by Created By
+ * @property string $from_postcode From Postcode
+ * @property string $to_postcode To Postcode
+ * @property float $from_weight From Weight
+ * @property float $to_weight To Weight
+ * @property float $cost Cost
+ * @property int $branch_id Branch ID
+ * @property int $user_id User ID
  */
 class Zip extends Model
 {
