@@ -163,7 +163,7 @@ if (!function_exists("money_unformat")) {
      */
     function money_unformat($value)
     {
-        if($value)
+        if($value && stripos($value, ",") !== FALSE)
         {
             $value = preg_replace("/[^\d\.\,]/", "", $value);
             $value = str_replace(".", "", $value);

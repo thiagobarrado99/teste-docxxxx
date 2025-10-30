@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreZipRequest;
 use App\Models\Zip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,21 +23,11 @@ class ZipController extends Controller
     }
 
     //
-    public function store(Request $request)
+    public function store(StoreZipRequest $request)
     {        
-        $zip = new Zip();
-        $zip->fill($request->post());
+        $zip = Zip::create($request->validated());
 
-        //Remove money mask from the cost field
-        $zip->cost = money_unformat($zip->cost);
-
-        //Remove mask from the zip fields
-        $zip->from_postcode = preg_replace("/[^\d]/", "", $zip->from_postcode);
-        $zip->to_postcode = preg_replace("/[^\d]/", "", $zip->to_postcode);
-
-        $zip->user_id = Auth::user()->id;
-
-        if ($zip->save()) {
+        if ($zip) {
             toast("CEP criado com sucesso!", "success");
         }else{
             toast("Houve um erro ao criar o CEP!", "error");

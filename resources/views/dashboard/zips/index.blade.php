@@ -39,13 +39,13 @@
                 'header' => 'ID',
             ],
             'from_postcode' => [
-                'header' => 'CEPs',
+                'header' => 'Faixa de CEP',
                 'model_function' => function ($model) {
                     return "Entre: <span class='fw-bold'>".cep_format($model->from_postcode)."</span> e <span class='fw-bold'>".cep_format($model->to_postcode)."</span>";
                 },
             ],
             'from_weight' => [
-                'header' => 'Peso',
+                'header' => 'Faixa de Peso',
                 'model_function' => function ($model) {
                     return "Entre: <span class='fw-bold'>".$model->from_weight."</span> e <span class='fw-bold'>".$model->to_weight."</span>";
                 },
