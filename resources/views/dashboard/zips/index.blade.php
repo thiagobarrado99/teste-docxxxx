@@ -41,25 +41,24 @@
             'from_postcode' => [
                 'header' => 'CEPs',
                 'model_function' => function ($model) {
-                    return "De: ".$model->from_postcode."<br>Para: ".$model->to_postcode;
+                    return "Entre: <span class='fw-bold'>".cep_format($model->from_postcode)."</span> e <span class='fw-bold'>".cep_format($model->to_postcode)."</span>";
                 },
             ],
             'from_weight' => [
                 'header' => 'Peso',
                 'model_function' => function ($model) {
-                    return "De: ".$model->from_weight."<br>Para: ".$model->to_weight;
+                    return "Entre: <span class='fw-bold'>".$model->from_weight."</span> e <span class='fw-bold'>".$model->to_weight."</span>";
                 },
             ],
             'cost' => [
                 'header' => 'Detalhes',
                 'model_function' => function ($model) {
-                    return "Custo: ".money_format($model->cost)."<br>Filia: ".$model->branch_id;
+                    return "Custo: ".money_format($model->cost)."<br>Filial: ".$model->branch_id;
                 },
             ]
         ],
         'action_column' => function ($model) {
-            return '<a href="/dashboard/zips/'.$model->id.'/edit" title="Editar" class="btn m-1 btn-sm btn-primary"><i class="fas fa-pencil"></i></a>
-                <button onclick="Delete('.$model->id.');" title="Excluir" class="btn m-1 btn-sm btn-danger"><i class="fas fa-trash-can"></i></button>';
+            return '<button onclick="Delete('.$model->id.');" title="Excluir" class="btn m-1 btn-sm btn-danger"><i class="fas fa-trash-can"></i></button>';
         },
     ])
     <form id="delete_form" action="/dashboard/zips/delete" method="post">
