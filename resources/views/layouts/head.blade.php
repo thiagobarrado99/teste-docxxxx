@@ -562,7 +562,7 @@
                 sanitize: false
             });
 
-            setInterval(keepTokenAlive, 20 * 1000); // every 20 secs
+            setInterval(keepTokenAlive, 15 * 1000); // every 15 secs
 
             $('[data-bs-toggle="dropdown"]').on('show.bs.dropdown', function () {
                 $('body').addClass('noscroll');
