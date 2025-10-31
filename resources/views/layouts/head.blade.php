@@ -108,7 +108,7 @@
             background-color: var(--danger-color);
             color: white;
             font-size: 0.7rem;
-            padding: 3px 6px;
+            padding: 2px 5px;
             border-radius: 50%;
         }
         
@@ -506,8 +506,14 @@
                 $("#notification_counter").html(data.unread_count);
                 $("#notification_counter").toggleClass("d-none", (data.unread_count <= 0));
 
+                Object.entries(data.item_counts).forEach(([key, value]) => {
+                    $(`#${key}_total`).html(value);
+                });
+
+                console.log(data.notifications);
                 if(data.notifications.length > 0)
                 {
+                    console.log("Playing sound");
                     $('#notificationSound')[0].play();
 
                     data.notifications.forEach(element => {

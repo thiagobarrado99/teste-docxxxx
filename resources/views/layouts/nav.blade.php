@@ -14,12 +14,12 @@
             <div class="dropdown">
                 <a href="#" class="notification-icon text-white text-decoration-none" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-bell"></i>
-                    <span id="notification_counter" class="odometer notification-badge @if(Auth::user()->notificationUnreadCount() <= 0) d-none @endif">{{ Auth::user()->notificationUnreadCount() }}</span>
+                    <span id="notification_counter" class="notification-badge @if(Auth::user()->notificationUnreadCount() <= 0) d-none @endif">{{ Auth::user()->notificationUnreadCount() }}</span>
                 </a>
                 
                 <ul id="notification_list" class="dropdown-menu dropdown-notifications p-2" style="max-height: 512px; overflow-y: scroll;" aria-labelledby="notificationDropdown">
 
-                    @if (Auth::user()->notificationUnreadCount() > 0) 
+                    @if (count(Auth::user()->notifications) > 0) 
                         @foreach (Auth::user()->notifications as $notification)
                         <li>
                             @if(empty($notification->url))
