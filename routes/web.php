@@ -25,6 +25,7 @@ Route::middleware(['forceauth'])->group(function () {
             Route::get("/create", "create");
 
             Route::post("/", "store");
+            Route::post("/upload", "upload");
 
             Route::delete("/{id}", "delete");
         });
