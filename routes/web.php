@@ -6,14 +6,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['forceauth'])->group(function () {
         
+    // Route is named "login" so sanctum will redirect here.
     Route::get('/', function () {
         return redirect('/dashboard');
-    });
-        
-    // Login layout should be loaded here, since we dont have a login screen just redirect to the dashboard already.
-    Route::get('/login', function () {
-        return redirect('/dashboard');
-    });
+    })->name("login");
 
     Route::middleware(['auth'])->prefix("dashboard")->controller(DashboardController::class)->group(function () {
         //Routes available to all logged users
