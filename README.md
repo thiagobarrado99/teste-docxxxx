@@ -124,4 +124,4 @@ composer run dev
 - Arquivos grandes (até 300k linhas) são processados sem risco de timeout graças às **queues** e batch insert.
 - Notificações avisam o usuário sobre o status de cada arquivo.
 - Sistema pode ser extendido facilmente para múltiplos clientes ou novas regras de importação.
-
+- Este arquivo README.md e a parte visual (dashboard) do projeto foram criados com auxilio de IA.
