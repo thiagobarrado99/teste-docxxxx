@@ -1,59 +1,124 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Teste Back-end - Importação de Tabelas de Frete
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Contexto
+A Testello é uma transportadora que presta serviços para múltiplos clientes, cada um com suas próprias tabelas de frete. Atualmente, a atualização dessas tabelas é manual, gerando custo de tempo significativo.
 
-## About Laravel
+Este projeto implementa uma **solução eficiente para importação de arquivos CSV**, suportando **grande volume de dados** (até 300 mil linhas) sem causar timeout HTTP, com **notificações de status e processamento em background**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Funcionalidades Implementadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Upload de arquivos CSV via **Front-end** e **API REST**.
+- Processamento de arquivos em **queue jobs**, evitando timeout HTTP.
+- Importação de múltiplos arquivos de forma eficiente, em **lotes (batches)**.
+- **Notificações** para o usuário:
+  - Recebimento do arquivo
+  - Conclusão do processamento
+- Listagem de registros com paginação e opção de **delete**.
+- Auto-login no frontend para simplicidade de uso.
+- Visualização da **API Key** no dropdown do usuário (`API REST`).
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Tecnologias Utilizadas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **PHP 8.4.10**
+- **Laravel Framework 12.36.1**
+- **MariaDB 10.6.23**
+- **Composer** para gerenciamento de dependências
+- **Front-end** simples integrado ao Laravel (Blade)
+- **Queues** para processamento assíncrono dos CSVs
+- **Notificações** customizadas
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Estrutura do Banco de Dados
 
-### Premium Partners
+Principais tabelas:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- `users` → usuários do sistema
+- `zips` → tabela de frete, com colunas:
+  - `from_postcode`, `to_postcode`
+  - `from_weight`, `to_weight`
+  - `cost`
+  - `branch_id`
+  - `user_id` (relacionamento com o usuário que importou)
+  - `created_at`, `updated_at`
+- `notifications` → notificações do usuário sobre status de arquivos
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalação e Configuração
 
-## Code of Conduct
+1. Clone o repositório:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd <PASTA_DO_PROJETO>
+```
 
-## Security Vulnerabilities
+2. Instale dependências PHP via Composer:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+```
 
-## License
+3. Configure o `.env` com dados do banco e outras variáveis de ambiente.
+4. Gere a chave da aplicação:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan key:generate
+```
+
+5. Rode migrations e seeders:
+
+```bash
+php artisan migrate --seed
+```
+
+6. Inicie o servidor de desenvolvimento e o worker de queues:
+
+```bash
+composer run dev
+```
+
+> Ao abrir o frontend (http://localhost:8000), será realizado o **auto-login** do usuário para facilitar o processo de testes.
+
+---
+
+## Uso
+
+### Front-end
+
+- Upload de CSV: faça upload de um ou mais arquivos via interface.
+- Lista de registros: visualize todas as entradas importadas, com opções de deletar.
+- Notificações: acompanhe status de processamento em tempo real.
+- API Key: clique no nome do usuário no topo e selecione `API REST`.
+
+### API REST
+
+- Endpoint para upload de CSV: suporta múltiplos arquivos.
+- Cada arquivo é processado em um **job separado**, garantindo eficiência e evitando timeout.
+- Retorna status do processamento de cada arquivo.
+
+---
+
+## Boas Práticas e Padrões
+
+- Código segue **PSR-1 e PSR-12**.
+- Arquitetura **SOLID**, com:
+  - Controller leve
+  - Service Layer para lógica de importação
+  - Queue Jobs para processamento assíncrono
+- **Validação** de CSV e campos antes de inserir no banco.
+- Limpeza e padronização de dados, como remoção de mascaras de CEP e valores monetários.
+
+---
+
+## Observações
+
+- Arquivos grandes (até 300k linhas) são processados sem risco de timeout graças às **queues** e batch insert.
+- Notificações avisam o usuário sobre o status de cada arquivo.
+- Sistema pode ser extendido facilmente para múltiplos clientes ou novas regras de importação.
+
