@@ -64,20 +64,23 @@ cd <PASTA_DO_PROJETO>
 composer install
 ```
 
-3. Configure o `.env` com dados do banco e outras variáveis de ambiente.
-4. Gere a chave da aplicação:
+3. Crie o banco de dados "teste_docxxxx" no MySQL/MariaDB
+
+4. Copie o arquivo `.env.example` para `.env` e preencha com dados do banco e outras variáveis de ambiente.
+
+5. Gere a chave da aplicação:
 
 ```bash
 php artisan key:generate
 ```
 
-5. Rode migrations e seeders:
+6. Rode migrations e seeders:
 
 ```bash
 php artisan migrate --seed
 ```
 
-6. Inicie o servidor de desenvolvimento e o worker de queues:
+7. Inicie o servidor de desenvolvimento e o worker de queues:
 
 ```bash
 composer run dev
