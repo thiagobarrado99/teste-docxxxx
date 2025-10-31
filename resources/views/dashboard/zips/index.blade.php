@@ -5,9 +5,9 @@
 <a href="/dashboard/zips/create" class="btn btn-sm btn-success">
     <i class="fas fa-plus"></i> Criar CEP
 </a>
-<a href="/dashboard/zips/import" class="btn btn-sm btn-primary">
+<button data-bs-toggle="modal" data-bs-target="#import_modal" class="btn btn-sm btn-primary">
     <i class="fas fa-file-upload"></i> Importar CSV
-</a>
+</button>
 @endsection
 
 @section('content')
@@ -34,6 +34,9 @@
         'table_id' => 'table_zips',
         'models' => $zips,
         'column_defs' => '[{"targets": [0, 1, 3], "responsivePriority": 5}, {"targets": [2], "responsivePriority": 1}]',
+        'paging' => false,
+        'info' => false,
+        'searching' => false,
         'columns' => [
             'id' => [
                 'header' => 'ID',
@@ -61,10 +64,41 @@
             return '<button onclick="Delete('.$model->id.');" title="Excluir" class="btn m-1 btn-sm btn-danger"><i class="fas fa-trash-can"></i></button>';
         },
     ])
+    <p class="text-muted">
+        Showing <strong>{{ $zips->firstItem() }}</strong>–
+        <strong>{{ $zips->lastItem() }}</strong>
+        of <strong>{{ $zips->total() }}</strong> results
+    </p>
+    <p>{{ $zips->links() }}</p>
     <form id="delete_form" action="/dashboard/zips/delete" method="post">
         @csrf
         @method('DELETE')
     </form>
+
+    <div class="modal fade" id="import_modal" tabindex="-1" role="dialog" aria-labelledby="import_modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Importar CSV</h5>
+                </div>
+                <form enctype="multipart/form-data" action="/dashboard/zips/upload" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <label class="w-100 mb-2">
+                                Arquivo(s) CSV (máximo 30MB cada)
+                                <input class="text-control" accept=".csv,text/csv" type="file" name="files[]" required multiple>
+                            </label>       
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" data-bs-dismiss="modal" type="button" role="button" class="btn btn-danger">Voltar</a>
+                        <input class="btn btn-success" type="submit" value="Enviar">
+                    </div>    
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('footer')
