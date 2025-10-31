@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('from_postcode', 32); 
             $table->string('to_postcode', 32);
 
-            $table->decimal('from_weight', 8, 3);
-            $table->decimal('to_weight', 8, 3);
+            $table->decimal('from_weight', 10, 3);
+            $table->decimal('to_weight', 10, 3);
             $table->decimal('cost', 8, 2); 
 
             $table->integer('branch_id');
