@@ -14,6 +14,12 @@ class DashboardController extends Controller
         return view('dashboard.index');
     }
 
+    //
+    public function apiInfo()
+    {
+        return view('dashboard.api-info');
+    }
+
     public function viewNotifications()
     {
         Notification::where(["user_id" => Auth::user()->id])->update(['viewed' => 1]);

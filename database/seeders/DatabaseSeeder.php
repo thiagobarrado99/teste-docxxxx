@@ -16,13 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = [
-            [
-                "name" => "Administrador",
-                "email" => "admin@docteka.com",
-                "password" => Hash::make("12345678")
-            ]
-        ];
-        User::insert($users);
+        $user = new User([
+            "name" => "Administrador",
+            "email" => "admin@docteka.com",
+            "password" => Hash::make("12345678")
+        ]);
+        $user->save();
+
+        // Generate a sample API Token and save it to database (not recommended at all, used here only for testing)
+        $token = $user->createToken('api-token');
+        $user->api_token = $token->plainTextToken;
+        $user->save();
     }
 }

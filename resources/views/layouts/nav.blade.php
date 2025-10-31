@@ -63,6 +63,8 @@
                     <span>{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="/dashboard/api-info"><i class="fas fa-key me-2"></i>API REST</a></li>
+                    <hr>
                     <li><a class="dropdown-item" id="logout_button" href="#"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
                 </ul>
             </div>

@@ -9,11 +9,17 @@ Route::middleware(['forceauth'])->group(function () {
     Route::get('/', function () {
         return redirect('/dashboard');
     });
+        
+    // Login layout should be loaded here, since we dont have a login screen just redirect to the dashboard already.
+    Route::get('/login', function () {
+        return redirect('/dashboard');
+    });
 
     Route::middleware(['auth'])->prefix("dashboard")->controller(DashboardController::class)->group(function () {
         //Routes available to all logged users
         Route::get("/", "index");
-        
+        Route::get("/api-info", "apiInfo");
+
         Route::post("/logout", "logout");
         Route::post('/keep-token-alive', 'keepTokenAlive');
         Route::post("/view-notifications", "viewNotifications");
